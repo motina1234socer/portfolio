@@ -9,14 +9,21 @@
 #include <random>
 #include <thread>
 #include <chrono>
+#include <string>
+#include <sstream>
 #pragma comment(lib,"winmm.lib")
 using namespace std;
-int tpwt(std::string s, int t=0)
+
+
+string input = "";
+int jinhang = 0;
+
+//s는 출력할 문자, t는 글자 사이의 간격(단위:밀리세컨드). t의 기본은 6. 
+int tpwt(std::string s, int t=6)
 {
 	for (const auto c : s) {
-		std::cout << c << std::flush;
-		if (t == NULL) { t = 6; }
-		std::this_thread::sleep_for(std::chrono::milliseconds(t));
+		cout << c << std::flush;
+		this_thread::sleep_for(std::chrono::milliseconds(t));
 	}
 	Sleep(50);
 	return 0;
@@ -34,16 +41,19 @@ int space_wait()
 	return 0;
 }
 
+
+
+//
+
+//rtyw 쓴 다음 띄어쓰기 안하고 뒤에 이동할 라벨 위치 쓰면 그 사이 내용 스킵 가능.
+//다만 전에 진행했던 변수등이 없어서 진행불가 되는 경우도 있을거임.
 int main()
 {
-	string input = "";
-	int jinhang = 0;
+first:
 	cout << "스페이스바를 눌러 넘기기.\n";
 	tpwt("당신은 어딘가 이상한 방에서 깨어났습니다.\n주변은 어두컴컴하고 보이는 거라곤 작은 램프 뿐 입니다.\n");
-first:
-	cout << "입력 : ";
-	cin >> input;
-	cout << "\n";
+firsts:
+	cout << "(둘러보기)\n입력 : "; cin >> input; cout << "\n";
 	if (input == "램프")
 	{
 		tpwt("램프는 기름으로 동작하는 듯 해보이고, 구리로 만들어져 있습니다.\n");
@@ -57,7 +67,7 @@ first:
 			space_wait();
 			goto second;
 		}
-		goto first;
+		goto firsts;
 	}
 	if (input == "둘러보기")
 	{
@@ -66,19 +76,50 @@ first:
 		cout << "성냥을 얻었다\n";
 		space_wait();
 		jinhang = 1;
-		goto first;
+		goto firsts;
+	}
+	if (input == "rtyw2")
+	{
+
+	}
+	else
+	{
+		cout << "잘못된 입력입니다.";
+		goto firsts;
 	}
 second:
 	system("cls");
 seconds:
-	cout << "(둘러보기)\n입력 : "; cin >> input;
+	if (jinhang == 2)
+	{
+		cout << "(나가기)\n입력 : "; cin >> input; cout << "\n";
+	}
+		
+	else
+	{
+		cout << "(둘러보기)\n입력 : "; cin >> input; cout << "\n";
+	}
+
 	if (input == "둘러보기") 
 	{
 		tpwt("벽에는 여러 낙서들이 있습니다. \n「꺼내줘」「갇힌지 514일차」등등... 이런 불길한 것들이었습니다.\n");
-		tpwt("그런데 당신을 가둘 목적이었다면 잠겨 있어야 할 문이 활짝 열려 있었습니다.\n");
+		space_wait();
+		tpwt("그런데 당신을 가둘 목적이었다면 잠겨 있어야 할 창살문이 활짝 열려 있었습니다.\n");
+		space_wait();
 		jinhang = 2;
-		goto second;
+		goto seconds;
 	}
+	if (input == "나가기")
+	{
+		tpwt("당신은 천천히 옅은 빛이 들어오는 독방 밖으로 걸어갑니다");
+		system("start https://www.youtube.com/watch?v=pEg_d2f6myw");
+	}
+	else
+	{
+		cout << "잘못된 입력입니다.";
+		goto seconds;
+	}
+
 	
 
 	
